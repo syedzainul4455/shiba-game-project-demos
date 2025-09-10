@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://s63t83f61nm4"]
+
+[ext_resource type="Script" uid="uid://bypkjkkdaobk8" path="res://audio_controlller.gd" id="1_v7wvu"]
+[ext_resource type="AudioStream" uid="uid://du45m0xm3gpf7" path="res://audio/footstep2.wav" id="2_stjg5"]
+[ext_resource type="AudioStream" uid="uid://jo1gb4v1jt77" path="res://audio/jump1.wav" id="3_po430"]
+
+[node name="AudioController" type="Node2D"]
+script = ExtResource("1_v7wvu")
+
+[node name="footsteps" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_stjg5")
+bus = &"Sfx"
+
+[node name="jump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_po430")
+volume_db = -11.071
+pitch_scale = 1.41
+bus = &"Sfx"

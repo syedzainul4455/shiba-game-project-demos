@@ -1,0 +1,93 @@
+[gd_scene load_steps=14 format=3 uid="uid://cwafjmpdcpj22"]
+
+[ext_resource type="Script" uid="uid://ck6y6xhxvedd0" path="res://scripts/trimon_enemy_character.gd" id="1_kep8u"]
+[ext_resource type="Texture2D" uid="uid://btkcvqddfv1wm" path="res://images/enemy/enemy_spritesheet.png" id="1_sa3cj"]
+[ext_resource type="Texture2D" uid="uid://d18fq1tfe740c" path="res://images/enemy/enemy_spritesheet (1).png" id="3_iawn3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfcw2"]
+atlas = ExtResource("1_sa3cj")
+region = Rect2(0, 0, 499, 694)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kep8u"]
+atlas = ExtResource("1_sa3cj")
+region = Rect2(499, 0, 499, 694)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iawn3"]
+atlas = ExtResource("1_sa3cj")
+region = Rect2(998, 0, 499, 694)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a14xy"]
+atlas = ExtResource("1_sa3cj")
+region = Rect2(1497, 0, 499, 694)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_doxup"]
+atlas = ExtResource("3_iawn3")
+region = Rect2(0, 0, 499, 693)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahs5y"]
+atlas = ExtResource("3_iawn3")
+region = Rect2(499, 0, 499, 693)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xi3qc"]
+atlas = ExtResource("3_iawn3")
+region = Rect2(998, 0, 499, 693)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuk2n"]
+atlas = ExtResource("3_iawn3")
+region = Rect2(1497, 0, 499, 693)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_doxup"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfcw2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kep8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iawn3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a14xy")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_doxup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahs5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xi3qc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xuk2n")
+}],
+"loop": true,
+"name": &"running",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sa3cj"]
+radius = 54.0
+height = 108.0
+
+[node name="trimon_enemy_character" type="CharacterBody2D" groups=["Enemies"]]
+script = ExtResource("1_kep8u")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-110.5, -129.066)
+scale = Vector2(0.234469, 0.227803)
+sprite_frames = SubResource("SpriteFrames_doxup")
+animation = &"running"
+autoplay = "running"
+frame_progress = 0.960465
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-108, -127)
+shape = SubResource("CapsuleShape2D_sa3cj")

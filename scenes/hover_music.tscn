@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3rybv0u5k0lo"]
+
+[ext_resource type="AudioStream" uid="uid://brpd6lg58p0xk" path="res://audio/button-hover.wav" id="1_xu8xq"]
+
+[node name="hover_music" type="AudioStreamPlayer"]
+stream = ExtResource("1_xu8xq")
+bus = &"Sfx"

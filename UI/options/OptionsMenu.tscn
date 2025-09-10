@@ -1,0 +1,232 @@
+[gd_scene load_steps=25 format=3 uid="uid://c8isfv0ybo3ku"]
+
+[ext_resource type="Script" uid="uid://potws4asa442" path="res://UI/options/options_menu.gd" id="1_rmhqi"]
+[ext_resource type="FontFile" uid="uid://dd0jm8kkhfgc7" path="res://Gagalin-Regular.ttf" id="2_o2s14"]
+[ext_resource type="Texture2D" uid="uid://7p886lsp25wp" path="res://images/Npc/background1_1920x1080.png" id="3_j0epm"]
+[ext_resource type="Texture2D" uid="uid://cx68l5ong0myr" path="res://cursor_click_64.png" id="4_wnyom"]
+[ext_resource type="Script" uid="uid://3g41xyilp2my" path="res://scripts/custom_cursor.gd" id="5_x762v"]
+[ext_resource type="AudioStream" uid="uid://iwi05fxthxe3" path="res://audio/button-click-1.wav" id="7_k5rdr"]
+[ext_resource type="AudioStream" uid="uid://brpd6lg58p0xk" path="res://audio/button-hover.wav" id="8_4wbvb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5qj0m"]
+bg_color = Color(0.312181, 0.164294, 0.157493, 0.180392)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 16
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wnyom"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wnyom"]
+bg_color = Color(0.531403, 0.648066, 0.363457, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x762v"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j0epm"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmhqi"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5rdr"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wbvb"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gb656"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ejrvx"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5fsbr"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kt7ey"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2pb7w"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ellkw"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eid47"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pbk5"]
+bg_color = Color(0.533333, 0.647059, 0.364706, 1)
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4a88x"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rmhqi")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.215686)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 842.0
+offset_top = 193.0
+offset_right = 1503.0
+offset_bottom = 278.0
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("2_o2s14")
+theme_override_font_sizes/font_size = 70
+text = "Options"
+vertical_alignment = 2
+
+[node name="Center" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(720, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Frame" type="Panel" parent="Center"]
+custom_minimum_size = Vector2(550, 450)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5qj0m")
+
+[node name="BGGlow" type="TextureRect" parent="Center/Frame"]
+z_index = -1
+texture_repeat = 1
+material = SubResource("CanvasItemMaterial_wnyom")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 4.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_j0epm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Center/Frame"]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 6.0
+offset_right = 499.0
+offset_bottom = 446.0
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Audio_Button" type="Button" parent="Center/Frame/VBoxContainer"]
+custom_minimum_size = Vector2(240, 64)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Back_button")
+theme_override_fonts/font = ExtResource("2_o2s14")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxFlat_wnyom")
+theme_override_styles/hover = SubResource("StyleBoxFlat_x762v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j0epm")
+theme_override_styles/normal = SubResource("StyleBoxFlat_rmhqi")
+text = "audio"
+flat = true
+
+[node name="Video_Button" type="Button" parent="Center/Frame/VBoxContainer"]
+custom_minimum_size = Vector2(240, 64)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_o2s14")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxFlat_k5rdr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_4wbvb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gb656")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ejrvx")
+text = "video"
+flat = true
+
+[node name="Controller_button" type="Button" parent="Center/Frame/VBoxContainer"]
+custom_minimum_size = Vector2(240, 64)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_o2s14")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxFlat_5fsbr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kt7ey")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2pb7w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ellkw")
+text = "Controller"
+flat = true
+
+[node name="Keyboard_Button" type="Button" parent="Center/Frame/VBoxContainer"]
+custom_minimum_size = Vector2(240, 64)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_o2s14")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxFlat_5fsbr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kt7ey")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2pb7w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ellkw")
+text = "Keyboard
+"
+flat = true
+
+[node name="HSeparator" type="HSeparator" parent="Center/Frame/VBoxContainer"]
+show_behind_parent = true
+layout_mode = 2
+
+[node name="Back_button" type="Button" parent="Center/Frame/VBoxContainer"]
+custom_minimum_size = Vector2(240, 64)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Audio_Button")
+theme_override_fonts/font = ExtResource("2_o2s14")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/hover = SubResource("StyleBoxFlat_eid47")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5pbk5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4a88x")
+text = "Back"
+
+[node name="HSeparator2" type="HSeparator" parent="Center/Frame/VBoxContainer"]
+show_behind_parent = true
+layout_mode = 2
+
+[node name="CustomLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="CustomCursor" type="TextureRect" parent="CustomLayer"]
+z_index = 4096
+offset_left = 474.0
+offset_top = 684.0
+offset_right = 538.0
+offset_bottom = 748.0
+mouse_filter = 2
+texture = ExtResource("4_wnyom")
+script = ExtResource("5_x762v")
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_k5rdr")
+volume_db = -3.0
+
+[node name="Hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_4wbvb")
+volume_db = -3.0
+
+[connection signal="mouse_entered" from="Center/Frame/VBoxContainer/Audio_Button" to="." method="_on_audio_button_mouse_entered"]
+[connection signal="mouse_exited" from="Center/Frame/VBoxContainer/Audio_Button" to="." method="_on_audio_button_mouse_exited"]
+[connection signal="pressed" from="Center/Frame/VBoxContainer/Audio_Button" to="." method="_on_audio_button_pressed"]
+[connection signal="pressed" from="Center/Frame/VBoxContainer/Back_button" to="." method="_on_back_button_pressed"]

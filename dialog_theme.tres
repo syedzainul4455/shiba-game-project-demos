@@ -1,0 +1,48 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://ci3d3nia3wq8b"]
+
+[ext_resource type="FontFile" uid="uid://b8pnyhoc4eu4f" path="res://fonts/Gagalin-Regular.ttf" id="1_2aant"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhess"]
+bg_color = Color(0.177537, 0.610034, 0.810738, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_detail = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2aant"]
+bg_color = Color(0.502745, 0.655953, 0.370424, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rjjc"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywlxj"]
+bg_color = Color(0.458824, 0.0117647, 0.00784314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rr6x8"]
+bg_color = Color(0.56209, 0.925458, 0.887653, 0.658824)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.501961, 0, 0.501961, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.666667)
+shadow_size = 5
+
+[resource]
+AcceptDialog/styles/panel = SubResource("StyleBoxFlat_uhess")
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_2aant")
+Button/styles/normal = SubResource("StyleBoxFlat_6rjjc")
+Button/styles/pressed = SubResource("StyleBoxFlat_ywlxj")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0.271392, 0.313459, 0.311968, 0.678431)
+Label/font_sizes/font_size = 25
+Label/fonts/font = ExtResource("1_2aant")
+Panel/styles/panel = SubResource("StyleBoxFlat_rr6x8")

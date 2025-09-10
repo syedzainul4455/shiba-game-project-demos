@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhpon40fwiuig"]
+
+[ext_resource type="Script" uid="uid://crhx10jwbnd4c" path="res://scenes/npc_1.gd" id="1_1n70y"]
+[ext_resource type="Texture2D" uid="uid://ca78u1g3sjhuq" path="res://images/Npc/shibinokoki-removebg-preview.png" id="2_c0u8k"]
+[ext_resource type="PackedScene" uid="uid://b20pofus2vp3a" path="res://interaction/interaction area/interaction_area.tscn" id="3_c0u8k"]
+[ext_resource type="FontFile" uid="uid://dd0jm8kkhfgc7" path="res://Gagalin-Regular.ttf" id="4_c0u8k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6isdo"]
+radius = 93.0484
+
+[node name="npc1" type="Node2D"]
+script = ExtResource("1_1n70y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-56.3234, -60.8656)
+rotation = 0.153553
+scale = Vector2(0.278188, 0.248047)
+texture = ExtResource("2_c0u8k")
+
+[node name="InteractionArea" parent="." instance=ExtResource("3_c0u8k")]
+position = Vector2(92, 257)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(-163, -342)
+rotation = 0.289939
+shape = SubResource("CircleShape2D_6isdo")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -146.0
+offset_top = -207.0
+offset_right = 11.0
+offset_bottom = -184.0
+theme_override_fonts/font = ExtResource("4_c0u8k")
+text = "Press [E] to Interact"

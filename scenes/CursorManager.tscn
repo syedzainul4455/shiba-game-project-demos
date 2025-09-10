@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbow5o0568hvh"]
+
+[ext_resource type="Texture2D" uid="uid://bdvj8c5ehs8yr" path="res://UI/cursor_click.png" id="2_c73ig"]
+
+[sub_resource type="GDScript" id="GDScript_a3u0y"]
+script/source = "extends CanvasLayer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="CursorManager" type="CanvasLayer"]
+script = SubResource("GDScript_a3u0y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_c73ig")
+centered = false

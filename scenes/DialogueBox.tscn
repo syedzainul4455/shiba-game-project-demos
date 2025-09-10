@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckbqng8h7whd"]
+
+[ext_resource type="Script" uid="uid://ci35pdskilroe" path="res://scenes/DialogueBox.gd" id="1_r2og1"]
+
+[node name="DialogueBox" type="CanvasLayer"]
+script = ExtResource("1_r2og1")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
