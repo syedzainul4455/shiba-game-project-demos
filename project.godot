@@ -13,6 +13,7 @@ config_version=5
 config/name="My Shiba Game -1"
 run/main_scene="uid://iguy32ow2dmb"
 config/features=PackedStringArray("4.4", "Forward Plus")
+run/low_processor_mode_sleep_usec=4000
 boot_splash/image="uid://bptg0h0ey0lfr"
 config/icon="res://icon.svg"
 boot_splash/minimum_display_time=8000
@@ -29,6 +30,7 @@ HoverMusic="*res://scenes/hover_music.tscn"
 DialogManager="*res://singletons/DialogManager.gd"
 InteractionManager="*res://interaction/InteractionManager.tscn"
 AudioController="*res://scenes/audio_controlller.tscn"
+LoadingScreen="*res://loading_screen/loading_scene.tscn"
 
 [display]
 

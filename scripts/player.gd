@@ -27,6 +27,8 @@ var can_freeze := false   # only true after interact
 
 
 func _ready() -> void:
+    # Hide OS cursor while in gameplay
+    Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
     spawn_position = global_position
     jumps_left = max_jumps
 
@@ -190,7 +192,11 @@ func go_to_main_menu() -> void:
                 if ("dialog_finished" in dm):
                     dm.dialog_finished.emit()
                 dm.is_dialog_active = false
-        get_tree().change_scene_to_file("res://scenes/Main_Menu.tscn" )
+        # Prefer using global loading screen to swap scenes cleanly
+        if "start_loading" in LoadingScreen:
+            LoadingScreen.start_loading("res://scenes/Main_Menu.tscn")
+        else:
+            get_tree().change_scene_to_file("res://scenes/Main_Menu.tscn")
         return
 
     var tween := create_tween()
@@ -209,4 +215,7 @@ func go_to_main_menu() -> void:
             if ("dialog_finished" in dm2):
                 dm2.dialog_finished.emit()
             dm2.is_dialog_active = false
-    get_tree().change_scene_to_file("res://scenes/Main_Menu.tscn") # <- change path if needed
+    if "start_loading" in LoadingScreen:
+        LoadingScreen.start_loading("res://scenes/Main_Menu.tscn")
+    else:
+        get_tree().change_scene_to_file("res://scenes/Main_Menu.tscn") # <- change path if needed
