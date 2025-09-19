@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://doqqdsh02teha"]
+[gd_scene load_steps=13 format=3 uid="uid://doqqdsh02teha"]
 
 [ext_resource type="Script" uid="uid://5r32ubjaalc5" path="res://UI/text box/text_box.gd" id="1_qxcac"]
 [ext_resource type="Texture2D" uid="uid://b4rohymox0a2d" path="res://UI/text box/dialogbox.jpg" id="2_5f5vd"]
 [ext_resource type="FontFile" uid="uid://dd0jm8kkhfgc7" path="res://Gagalin-Regular.ttf" id="3_582gx"]
 [ext_resource type="Texture2D" uid="uid://c4mfx2uxpfae6" path="res://images/main_character/idle/tail.png" id="3_cd2yn"]
 [ext_resource type="Texture2D" uid="uid://dq8hlgd0sccho" path="res://images/arrow_spritesheet_transparent.png" id="4_s05u6"]
+[ext_resource type="Texture2D" uid="uid://42007iod3mte" path="res://images/Npc/cropped_circle_image.png" id="5_s05u6"]
 [ext_resource type="AudioStream" uid="uid://buoquacinx4ep" path="res://audio/speech.wav" id="6_cd2yn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5h1xn"]
@@ -92,6 +93,21 @@ sprite_frames = SubResource("SpriteFrames_y17ux")
 autoplay = "default"
 frame_progress = 0.0262365
 
+[node name="Control3" type="Control" parent="NinePatchRect"]
+visible = false
+layout_mode = 1
+anchor_left = -0.073
+anchor_top = -0.063
+offset_left = 2.336
+offset_top = 2.331
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Sprite2D" type="Sprite2D" parent="NinePatchRect/Control3"]
+position = Vector2(15, 19)
+scale = Vector2(0.0816327, 0.0854592)
+texture = ExtResource("5_s05u6")
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 8
@@ -110,6 +126,7 @@ one_shot = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_cd2yn")
+volume_db = 5.0
 bus = &"Sfx"
 
 [connection signal="timeout" from="LetterDisplayTimer" to="." method="_on_letter_display_timer_timeout"]

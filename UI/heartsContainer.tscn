@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://w1r0csqan7jw"]
+
+[ext_resource type="Script" uid="uid://c6s3k73gv2vp0" path="res://UI/hearts_container.gd" id="1_gs30n"]
+[ext_resource type="Texture2D" uid="uid://brkd84mqqk3xs" path="res://UI/cropped_circle_image.png" id="2_35lqi"]
+[ext_resource type="Texture2D" uid="uid://b75qrh2eboulf" path="res://platform_tiles/12-129447_white-shadow-white-glow-light-png.png" id="2_i7byr"]
+
+[node name="heartsContainer" type="HBoxContainer"]
+offset_left = 11.0
+offset_top = 11.0
+offset_right = 402.0
+offset_bottom = 89.0
+theme_override_constants/separation = 15
+script = ExtResource("1_gs30n")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel"]
+position = Vector2(-63, 25)
+scale = Vector2(0.429487, 0.410256)
+texture = ExtResource("2_35lqi")
+
+[node name="PointLight2D" type="PointLight2D" parent="Panel/Sprite2D"]
+position = Vector2(435.112, -32.2969)
+scale = Vector2(1.76925, 0.475932)
+color = Color(0.400698, 0.400698, 0.400698, 1)
+energy = 1.5
+texture = ExtResource("2_i7byr")

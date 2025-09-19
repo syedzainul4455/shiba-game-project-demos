@@ -26,7 +26,11 @@ const lines: Array[String] = [
 
 func _ready() -> void:
     # Ensure that the interact callable is assigned correctly
-    interaction_area.interact = Callable(self, "_on_interact")
+    if interaction_area:
+        interaction_area.interact = Callable(self, "_on_interact")
+    else:
+        # Defer assignment if node isn't ready yet
+        call_deferred("_assign_interact_callable")
     
     # Store original facing direction - if sprite.flip_h is false, NPC faces right
     # If sprite.flip_h is true, NPC faces left
@@ -35,6 +39,16 @@ func _ready() -> void:
     
     # Connect to dialog finished signal to return to original direction
     DialogManager.dialog_finished.connect(_on_dialog_finished)
+
+func _assign_interact_callable() -> void:
+    # Try to assign the callable after a frame delay
+    if interaction_area:
+        interaction_area.interact = Callable(self, "_on_interact")
+    else:
+        # If still null, try to get the node again
+        interaction_area = get_node_or_null("InteractionArea")
+        if interaction_area:
+            interaction_area.interact = Callable(self, "_on_interact")
 
 # Function to determine if player is in front or behind NPC
 func is_player_behind_npc(player: Node2D) -> bool:
@@ -125,3 +139,18 @@ func _on_dialog_finished() -> void:
     
     # Return to original position, then do tilt up animation
     return_to_original_position_and_tilt()
+
+func _unhandled_input(event: InputEvent) -> void:
+    if event.is_action_pressed("finish") and DialogManager.is_dialog_active:
+        # Remove the text box directly from DialogManager
+        if DialogManager.text_box:
+            DialogManager.text_box.queue_free()
+            DialogManager.text_box = null
+        
+        # Reset dialog state
+        DialogManager.is_dialog_active = false
+        DialogManager.current_line_index = 0
+        DialogManager.can_advance_line = false
+        
+        # Emit dialog finished signal
+        DialogManager.dialog_finished.emit()

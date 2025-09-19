@@ -50,30 +50,39 @@ func display_text(text_to_display: String, speech_sfx: AudioStream):
     _display_letter()
     
 func _display_letter():
-    label.text += text[letter_index]
-    
-    letter_index += 1 
     if letter_index >= text.length():
         finished_displaying.emit()
-        next_indicator.visible = true 
+        next_indicator.visible = true
         return
-        
-    match text[letter_index]:
+
+    label.text += text[letter_index]
+    letter_index += 1
+
+    match text[letter_index - 1]:
         "!", ".", ",", "?":
             timer.start(punctuation_time)
         " ":
             timer.start(space_time)
         _:
-            timer.start(letter_time)        
-            
+            timer.start(letter_time)
+
             var new_audio_player = audio_player.duplicate()
             new_audio_player.pitch_scale += randf_range(-0.1, 0.1)
-            if text[letter_index] in ["a", "e", "i", "o", "u"]:
+            if text[letter_index - 1] in ["a", "e", "i", "o", "u"]:
                 new_audio_player.pitch_scale += 0.2
             get_tree().root.add_child(new_audio_player)
             new_audio_player.play()
             await new_audio_player.finished
             new_audio_player.queue_free()
+
             
 func _on_letter_display_timer_timeout():
     _display_letter()
+
+func show_full_text():
+    # Stop the timer and show all text immediately
+    timer.stop()
+    label.text = text
+    letter_index = text.length()
+    finished_displaying.emit()
+    next_indicator.visible = true

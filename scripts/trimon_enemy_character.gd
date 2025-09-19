@@ -54,6 +54,7 @@ const intro_lines: Array[String] = [
 func _ready() -> void:
     anim.play("idle")
     spawn_position = global_position
+    add_to_group("enemy")
     if anim:
         original_flip_h = anim.flip_h
 
@@ -231,9 +232,9 @@ func _handle_player_contact() -> void:
         if stomp_immunity_left <= 0.0 and velocity.y > 200.0:
             stomp_immunity_left = stomp_immunity_time
             player_hits_by_enemy += 1
-            if player_hits_by_enemy >= 4:
-                if player.has_method("die"):
-                    player.die()
+            # Decrease health faster: 1 hit = 1 heart lost
+            if player.has_method("take_damage"):
+                player.take_damage(1)
 
 func _respawn() -> void:
     global_position = spawn_position
@@ -250,3 +251,18 @@ func _respawn() -> void:
     has_spoken_to_player = false
     is_dead_enemy = false
     show()
+
+func _unhandled_input(event: InputEvent) -> void:
+    if event.is_action_pressed("finish") and DialogManager.is_dialog_active:
+        # Remove the text box directly from DialogManager
+        if DialogManager.text_box:
+            DialogManager.text_box.queue_free()
+            DialogManager.text_box = null
+        
+        # Reset dialog state
+        DialogManager.is_dialog_active = false
+        DialogManager.current_line_index = 0
+        DialogManager.can_advance_line = false
+        
+        # Emit dialog finished signal
+        DialogManager.dialog_finished.emit()

@@ -189,10 +189,12 @@ flat = true
 [node name="Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_skpiv")
 volume_db = -3.0
+bus = &"Sfx"
 
 [node name="Hover" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_mwmg2")
 volume_db = -3.0
+bus = &"Sfx"
 
 [node name="ExitDialog" type="ConfirmationDialog" parent="."]
 title = "EXIT"

@@ -6,6 +6,7 @@ extends Node
 # Reference to existing AudioStreamPlayer nodes in the scene
 @onready var footsteps: AudioStreamPlayer = $footsteps
 @onready var jump: AudioStreamPlayer = $jump
+@onready var dash: AudioStreamPlayer = $dash
 
 # Walk sound timing variables
 var walk_timer: float = 0.0
@@ -14,11 +15,11 @@ var is_walking: bool = false
 
 func _ready() -> void:
     # Set up walk sound properties
-    footsteps.volume_db = -10.0  # Adjust volume as needed
+    footsteps.volume_db = 12  # Adjust volume as needed
     footsteps.pitch_scale = 1.0
     
     # Set up jump sound properties
-    jump.volume_db = -15.0   # Lower volume for jump sounds
+    jump.volume_db = 3   # Lower volume for jump sounds
     jump.pitch_scale = 1.0
     
     # Load audio files (you'll need to add these audio files to your project)
@@ -39,6 +40,11 @@ func start_walking() -> void:
         is_walking = true
         walk_timer = walk_interval
         play_walk()
+        
+func play_dash() -> void:
+    if dash.stream != null:
+        dash.stop()
+        dash.play()
 
 # Function to stop walking sound loop
 func stop_walking() -> void:
@@ -66,3 +72,7 @@ func set_walk_sound(audio_stream: AudioStream) -> void:
 # Function to set jump sound file
 func set_jump_sound(audio_stream: AudioStream) -> void:
     jump.stream = audio_stream
+
+# Function to set dash sound file
+func set_dash_sound(audio_stream: AudioStream) -> void:
+    dash.stream = audio_stream
