@@ -199,8 +199,8 @@ position = Vector2(4, -38)
 rotation = 0.0448345
 scale = Vector2(0.169492, 0.146281)
 sprite_frames = SubResource("SpriteFrames_38am0")
-animation = &"death"
-frame_progress = 0.920357
+animation = &"running"
+frame_progress = 0.772674
 
 [node name="PointLight2D" type="PointLight2D" parent="AnimatedSprite2D"]
 position = Vector2(-13.5277, 260.739)

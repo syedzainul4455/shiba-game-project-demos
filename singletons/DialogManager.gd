@@ -14,7 +14,7 @@ var is_dialog_active = false
 var can_advance_line = false 
 var double_press_timer = 0.0
 var last_press_time = 0.0
-var double_press_threshold = 0.3
+var double_press_threshold = 0.3 # Time window for double-press (E) to skip dialog animation
 
 signal dialog_finished()
 
@@ -45,14 +45,13 @@ func _process(delta: float):
         double_press_timer += delta
 
 func _unhandled_input(event):
-    if event.is_action_pressed("advance_dialog") && is_dialog_active:
+    if event.is_action_pressed("advance_dialog") and is_dialog_active:
         var current_time = Time.get_time_dict_from_system()
         var current_seconds = current_time.hour * 3600 + current_time.minute * 60 + current_time.second
         var time_since_last_press = current_seconds - last_press_time
-        
-        # Check for double press (within threshold)
+
+        # Double press (press E twice quickly) to skip animation and show full text
         if time_since_last_press < double_press_threshold:
-            # Double press - skip animation and show full text
             if text_box and text_box.has_method("show_full_text"):
                 text_box.show_full_text()
             can_advance_line = true
@@ -60,15 +59,13 @@ func _unhandled_input(event):
             # Single press - normal behavior
             if can_advance_line:
                 text_box.queue_free()
-                
                 current_line_index += 1
                 if current_line_index >= dialog_lines.size():
                     is_dialog_active = false
-                    current_line_index = 0 
+                    current_line_index = 0
                     dialog_finished.emit()
                     return
-                    
                 _show_text_box()
-        
+
         last_press_time = current_seconds
     

@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var label: Label = $Label
+@onready var dialog_manager = get_node_or_null("/root/DialogManager")
 
 const base_text = "[E] to interact"
 
@@ -19,6 +20,10 @@ func unregister_area(area: InteractionArea) -> void:
 
 
 func _process(delta: float) -> void:
+    # Hide label if dialog is active
+    if dialog_manager and dialog_manager.is_dialog_active:
+        label.hide()
+        return
     if active_areas.size() > 0 and can_interact:
         # sort by nearest area
         active_areas.sort_custom(_sort_by_distance_to_player)
@@ -31,15 +36,22 @@ func _process(delta: float) -> void:
         # show label text
         label.text = base_text + " " + target_area.action_name
 
-        # Position label above the NPC, centered
-        var label_width: float = max(label.size.x, label.get_minimum_size().x)
-        var offset_y: float = -390.0
-        var offset_x: float = -240
+        # Position label directly above the NPC (target_area)
+        var offset_x: float = -250.0 # centered horizontally
+        var offset_y: float = -400.0 # just above
         label.global_position = target_area.global_position + Vector2(offset_x, offset_y)
 
         label.show()
     else:
         label.hide()
+
+func _ready() -> void:
+    if dialog_manager:
+        dialog_manager.dialog_finished.connect(_on_dialog_finished)
+
+func _on_dialog_finished():
+    # Called when dialog ends, label will show again if in area (handled by _process)
+    pass
 
 
 func _sort_by_distance_to_player(area1, area2) -> bool:
