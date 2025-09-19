@@ -36,6 +36,13 @@ var fall_freeze_duration: float = 0.35
 
 var is_invincible: bool = false
 
+# Freeze control when NPC dialog is active
+
+# Freeze control when NPC dialog is active
+var freeze_for_npc_dialog: bool = false
+# Store the NPC node to face during dialog
+var dialog_npc: Node = null
+
 
 var was_dialog_active: bool = false
 # Timer for auto-heal
@@ -76,10 +83,20 @@ func _physics_process(delta: float) -> void:
         return
 
     var dialog_active: bool = DialogManager.is_dialog_active
-    if dialog_active:
+    if freeze_for_npc_dialog:
+        velocity = Vector2.ZERO
+        if anim_sprite:
+            anim_sprite.play("running")
+            if dialog_npc:
+                var npc_pos = dialog_npc.global_position if "global_position" in dialog_npc else dialog_npc.get_global_position()
+                anim_sprite.flip_h = global_position.x > npc_pos.x
+        move_and_slide()
+        return
+    elif dialog_active:
         if is_on_floor():
             velocity = Vector2.ZERO
-            if anim_sprite: anim_sprite.play("idle")
+            if anim_sprite:
+                anim_sprite.play("running")
             move_and_slide()
             return
         else:
@@ -130,8 +147,13 @@ func _physics_process(delta: float) -> void:
         input_dir += 1.0
     velocity.x = input_dir * speed
 
+    # Only flip based on input if not frozen for dialog
     if input_dir != 0 and anim_sprite:
-        anim_sprite.flip_h = input_dir < 0
+        if freeze_for_npc_dialog:
+            # Always keep facing the NPC (direction set in freeze_for_npc_dialog_start)
+            pass
+        else:
+            anim_sprite.flip_h = input_dir < 0
 
     if Input.is_action_just_pressed("jump") and jumps_left > 0 and not is_dashing:
         AudioController.play_jump()
@@ -165,7 +187,7 @@ func _physics_process(delta: float) -> void:
                 if anim_sprite: anim_sprite.play("running")
                 AudioController.start_walking()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     var dialog_active: bool = DialogManager.is_dialog_active
 
     if dialog_active and not was_dialog_active:
@@ -236,9 +258,10 @@ func start_dash(dir: float) -> void:
     velocity = Vector2(dash_dir * dash_speed, 0.0)
 
     if anim_sprite:
-        anim_sprite.flip_h = dash_dir < 0
+        # Only flip if not frozen for dialog
+        if not freeze_for_npc_dialog:
+            anim_sprite.flip_h = dash_dir < 0
         anim_sprite.play("dash")
-
         AudioController.play_dash()
 
 func die() -> void:
@@ -251,18 +274,19 @@ func die() -> void:
     # Play death animation and block all others
     if anim_sprite:
         anim_sprite.visible = true # Ensure visible before death
-        # Flip to face enemy if possible
-        var enemy = get_tree().get_first_node_in_group("Enemies")
-        if enemy:
-            if enemy.global_position.x < global_position.x:
-                anim_sprite.flip_h = true # Face left
-                print("[Death] Enemy is left. Player flip_h = true (face left)")
+        # Only flip to face enemy if not frozen for dialog
+        if not freeze_for_npc_dialog:
+            var enemy = get_tree().get_first_node_in_group("Enemies")
+            if enemy:
+                if enemy.global_position.x < global_position.x:
+                    anim_sprite.flip_h = true # Face left
+                    print("[Death] Enemy is left. Player flip_h = true (face left)")
+                else:
+                    anim_sprite.flip_h = false # Face right
+                    print("[Death] Enemy is right. Player flip_h = false (face right)")
             else:
-                anim_sprite.flip_h = false # Face right
-                print("[Death] Enemy is right. Player flip_h = false (face right)")
-        else:
-            anim_sprite.flip_h = false # Default to face right if no enemy found
-            print("[Death] No enemy found. Player set flip_h = false (face right)")
+                anim_sprite.flip_h = false # Default to face right if no enemy found
+                print("[Death] No enemy found. Player set flip_h = false (face right)")
         anim_sprite.sprite_frames.set_animation_loop("death", false)
         anim_sprite.play("death")
 
@@ -307,12 +331,27 @@ func respawn() -> void:
     start_invincibility()
 
 func _on_dialog_started() -> void:
-    if not is_on_floor():
-        while not is_on_floor():
-            await get_tree().process_frame
+    # This is called for any dialog, but we only want to freeze for NPC dialog
+    pass
+
+func freeze_for_npc_dialog_start(npc: Node = null):
+    print("[DEBUG] freeze_for_npc_dialog_start CALLED", " npc:", npc)
+    freeze_for_npc_dialog = true
+    dialog_npc = npc
     velocity = Vector2.ZERO
     if anim_sprite:
-        anim_sprite.play("idle")
+        anim_sprite.play("running")
+        if npc:
+            var npc_pos = npc.global_position if "global_position" in npc else npc.get_global_position()
+            anim_sprite.flip_h = global_position.x > npc_pos.x
+            print("[DEBUG] Dialog Start: Player X:", global_position.x, " NPC X:", npc_pos.x, " flip_h:", anim_sprite.flip_h)
+        else:
+            anim_sprite.flip_h = false
+            print("[DEBUG] Dialog Start: Player X:", global_position.x, " NPC: None", " flip_h:", anim_sprite.flip_h)
+
+func freeze_for_npc_dialog_end():
+    freeze_for_npc_dialog = false
+    dialog_npc = null
 
 func _on_dialog_finished() -> void:
     pass

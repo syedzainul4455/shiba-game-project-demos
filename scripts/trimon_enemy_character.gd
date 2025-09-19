@@ -54,7 +54,6 @@ const intro_lines: Array[String] = [
 func _ready() -> void:
     anim.play("idle")
     spawn_position = global_position
-    add_to_group("enemy")
     if anim:
         original_flip_h = anim.flip_h
 
@@ -93,7 +92,8 @@ func _physics_process(delta: float) -> void:
             has_spoken_to_player = true
 
     if DialogManager.is_dialog_active:
-        _play_idle_or_run()
+        if anim:
+            anim.play("dialog")
         move_and_slide()
         return
 
@@ -231,9 +231,10 @@ func _handle_player_contact() -> void:
     elif enemy_falling and not player_above:
         if stomp_immunity_left <= 0.0 and velocity.y > 200.0:
             stomp_immunity_left = stomp_immunity_time
-            player_hits_by_enemy += 1
-            # Decrease health faster: 1 hit = 1 heart lost
+            anim.play("running")
+            # Always 1 hit = 1 heart lost
             if player.has_method("take_damage"):
+                print("Trimon enemy hit player! 1 heart lost.")
                 player.take_damage(1)
 
 func _respawn() -> void:

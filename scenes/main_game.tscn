@@ -11,8 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://bhpon40fwiuig" path="res://scenes/npc1.tscn" id="7_wi4c7"]
 [ext_resource type="PackedScene" uid="uid://cwafjmpdcpj22" path="res://images/enemy/trimon_enemy_character.tscn" id="9_2l77h"]
 [ext_resource type="Texture2D" uid="uid://jt6ddgj4u06r" path="res://platform_tiles/end stage/exit road.png" id="9_nqdth"]
-[ext_resource type="FontFile" uid="uid://b8pnyhoc4eu4f" path="res://fonts/Gagalin-Regular.ttf" id="11_5cypo"]
 [ext_resource type="PackedScene" uid="uid://w1r0csqan7jw" path="res://UI/heartsContainer.tscn" id="12_o6v7o"]
+[ext_resource type="FontFile" uid="uid://dd0jm8kkhfgc7" path="res://Gagalin-Regular.ttf" id="12_wjob3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2l77h"]
 texture = ExtResource("1_70vka")
@@ -15333,7 +15333,10 @@ offset_left = -120.0
 offset_top = -160.0
 offset_right = 91.0
 offset_bottom = -123.0
-theme_override_fonts/font = ExtResource("11_5cypo")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("12_wjob3")
 theme_override_font_sizes/font_size = 30
 text = "GAME TURTORIAL"
 

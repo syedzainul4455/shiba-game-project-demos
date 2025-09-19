@@ -75,9 +75,10 @@ func return_to_original_position_and_tilt() -> void:
 
 func _on_interact():
     var player = get_tree().get_first_node_in_group("player")
+    if player and player.has_method("freeze_for_npc_dialog_start"):
+        player.freeze_for_npc_dialog_start(self)
     if player:
-        if is_player_behind_npc(player):
-            turn_towards_player(player)
+        turn_towards_player(player)
     start_bobbing_animation()
     DialogManager.start_dialog(global_position + Vector2(0, -120), lines, speech_sound)
 
@@ -85,6 +86,9 @@ func _on_dialog_finished() -> void:
     stop_bobbing_animation()
     return_to_original_direction()
     return_to_original_position_and_tilt()
+    var player = get_tree().get_first_node_in_group("player")
+    if player and player.has_method("freeze_for_npc_dialog_end"):
+        player.freeze_for_npc_dialog_end()
 
 func _unhandled_input(event: InputEvent) -> void:
     pass
