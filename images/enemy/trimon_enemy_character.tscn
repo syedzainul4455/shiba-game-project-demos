@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://cwafjmpdcpj22"]
+[gd_scene load_steps=21 format=3 uid="uid://cwafjmpdcpj22"]
 
 [ext_resource type="Script" uid="uid://ck6y6xhxvedd0" path="res://scripts/trimon_enemy_character.gd" id="1_kep8u"]
 [ext_resource type="Texture2D" uid="uid://btkcvqddfv1wm" path="res://images/enemy/enemy_spritesheet.png" id="1_sa3cj"]
 [ext_resource type="Texture2D" uid="uid://dmc7166hnyg0l" path="res://images/enemy/running2.png" id="2_iawn3"]
 [ext_resource type="Texture2D" uid="uid://j1ujjt43e0nv" path="res://images/enemy/enemy_spritesheet running1.png" id="4_iawn3"]
 [ext_resource type="Texture2D" uid="uid://b75qrh2eboulf" path="res://platform_tiles/12-129447_white-shadow-white-glow-light-png.png" id="5_a14xy"]
+[ext_resource type="PackedScene" uid="uid://clpvd2dle2eag" path="res://UI/healthbar/healthbar.tscn" id="6_doxup"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkrhx"]
 atlas = ExtResource("2_iawn3")
@@ -119,9 +120,9 @@ script = ExtResource("1_kep8u")
 position = Vector2(-110.5, -129.066)
 scale = Vector2(0.234469, 0.227803)
 sprite_frames = SubResource("SpriteFrames_doxup")
-animation = &"running"
+animation = &"idle"
 autoplay = "running"
-frame_progress = 0.601697
+frame_progress = 0.543244
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-108, -127)
@@ -133,3 +134,10 @@ rotation = -1.20785
 scale = Vector2(0.211709, 0.250624)
 color = Color(0.683256, 0.442734, 0.234989, 1)
 texture = ExtResource("5_a14xy")
+
+[node name="Healthbar" parent="." instance=ExtResource("6_doxup")]
+offset_left = -149.0
+offset_top = -218.0
+offset_right = -59.0
+offset_bottom = -209.0
+rotation = 0.0482089

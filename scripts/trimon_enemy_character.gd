@@ -1,7 +1,9 @@
 extends CharacterBody2D
-
 signal defeated
 
+
+
+# Exported variables
 @export var move_speed := 120.0
 @export var gravity := 1800.0
 @export var jump_force := -560.0
@@ -12,50 +14,77 @@ signal defeated
 @export var dash_speed := 450.0
 @export var dash_duration := 0.22
 @export var reflex_cooldown := 0.8
+@export var platform_left_x: float = -1e9
+@export var platform_right_x: float = 1e9
+@export var cliff_check_distance: float = 16.0
+@export var max_health: int = 3
 
+# Onready variables
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+@onready var player: Node2D = get_tree().get_first_node_in_group("player")
+@onready var healthbar = $Healthbar
+@onready var collision_shape = $CollisionShape2D
+
+# Regular variables
 var cooldown_timer := 0.0
 var stuck_timer := 0.0
 var max_stuck_time := 0.85
-
 var dash_time_left := 0.0
 var spawn_position: Vector2
-
 var enemy_stomp_hits := 0               # Player stomps needed: 3 to kill enemy (reduced from 5)
 var player_hits_by_enemy := 0           # Enemy stomps on player: 4 to kill player
 var stomp_immunity_time := 0.05         # Prevent multi-stomp in one frame (reduced)
 var stomp_immunity_left := 0.0
-
 var prev_player_dead := false
 var original_flip_h := false
 var is_dead_enemy := false
-
-# Sound tracking variables (removed footsteps, keeping only jump sounds)
-
-# Double-jump attack control
 var queued_second_jump := false
 var second_jump_window := 0.35
 var second_jump_timer := 0.0
-
-# Platform bounds and cliff detection
-@export var platform_left_x: float = -1e9
-@export var platform_right_x: float = 1e9
-@export var cliff_check_distance: float = 16.0
-
-@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
-@onready var player: Node2D = get_tree().get_first_node_in_group("player")
-
-# One-time dialog before aggression
+var current_health: int
 var has_spoken_to_player := false
 const intro_lines: Array[String] = [
     "You dare enter my platform?",
     "Let's see how high you can bounce!"
 ]
-
 func _ready() -> void:
+
+    is_dead_enemy = false
+    current_health = max_health
     anim.play("idle")
     spawn_position = global_position
     if anim:
         original_flip_h = anim.flip_h
+
+    # Initialize Healthbar if present
+    if healthbar:
+        healthbar.init_health(max_health)
+
+    # Debug: Check player node
+    if not player:
+        print("[Trimon] Player node not found!")
+    else:
+        print("[Trimon] Player node found:", player)
+# Health system: take damage and update healthbar
+func take_damage(amount: int) -> void:
+    if is_dead_enemy:
+        return
+    current_health -= amount
+    if healthbar:
+        healthbar.health = current_health
+    if current_health <= 0:
+        die_enemy()
+
+# Death logic for enemy
+func die_enemy() -> void:
+    is_dead_enemy = true
+    if collision_shape:
+        collision_shape.disabled = true
+    await get_tree().create_timer(0.1).timeout
+    hide()
+    emit_signal("defeated")
+    if healthbar:
+        healthbar.hide()
 
 func _physics_process(delta: float) -> void:
     if not player:
@@ -213,12 +242,8 @@ func _handle_player_contact() -> void:
         if "force_drop" in player:
             player.force_drop(0.15)
 
-        # Each single jump counts as one hit - enemy dies after 3 jumps
-        if enemy_stomp_hits >= 3:
-            print("Enemy should die now!")  # Debug info
-            is_dead_enemy = true
-            hide()
-            emit_signal("defeated")
+        # Each single jump counts as one hit - enemy loses 1 health per stomp
+        take_damage(1)
         return
 
     if player_above and not player_falling:
@@ -264,12 +289,22 @@ func _respawn() -> void:
     dash_time_left = 0.0
     cooldown_timer = 0.0
     stuck_timer = 0.0
-    # Reset variables
+    current_health = max_health
+    is_dead_enemy = false
+    has_spoken_to_player = false
+    if collision_shape:
+        collision_shape.disabled = false
+    if healthbar:
+        healthbar.init_health(max_health)
     anim.play("idle")
     if anim:
         anim.flip_h = original_flip_h
-    has_spoken_to_player = false
-    is_dead_enemy = false
+    show()
+    if healthbar:
+        healthbar.show()
+    anim.play("idle")
+    if anim:
+        anim.flip_h = original_flip_h
     show()
 
 func _unhandled_input(event: InputEvent) -> void:
