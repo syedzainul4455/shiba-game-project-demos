@@ -84,6 +84,14 @@ func _physics_process(delta: float) -> void:
 
     var dialog_active: bool = DialogManager.is_dialog_active
     if freeze_for_npc_dialog:
+        # Block all input/actions, but allow gravity until landed
+        if not is_on_floor():
+            # Only apply gravity, ignore all input
+            velocity.x = 0
+            velocity.y += gravity * delta
+            move_and_slide()
+            return
+        # On ground: freeze completely
         velocity = Vector2.ZERO
         if anim_sprite:
             anim_sprite.play("running")
@@ -93,16 +101,17 @@ func _physics_process(delta: float) -> void:
         move_and_slide()
         return
     elif dialog_active:
-        if is_on_floor():
-            velocity = Vector2.ZERO
-            if anim_sprite:
-                anim_sprite.play("running")
-            move_and_slide()
-            return
-        else:
+        # When dialog is active, allow gravity so player comes down if in air, block all input
+        if not is_on_floor():
+            velocity.x = 0
             velocity.y += gravity * delta
             move_and_slide()
             return
+        velocity = Vector2.ZERO
+        if anim_sprite:
+            anim_sprite.play("running")
+        move_and_slide()
+        return
 
     if is_dashing:
         dash_timer -= delta

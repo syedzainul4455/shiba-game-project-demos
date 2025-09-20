@@ -223,8 +223,8 @@ texture = ExtResource("6_8wqjl")
 script = ExtResource("7_73mli")
 
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/Start_Button" to="." method="_on_start_button_mouse_entered"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Start_Button" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Start_Button" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Start_Button" to="." method="_on_start_button_pressed"]
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/Option_Button" to="." method="_on_option_button_mouse_entered"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Option_Button" to="." method="_on_setting_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Option_Button" to="." method="_on_option_button_pressed"]

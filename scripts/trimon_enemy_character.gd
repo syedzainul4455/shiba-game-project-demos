@@ -201,6 +201,10 @@ func _handle_player_contact() -> void:
         enemy_stomp_hits += 1
         print("Enemy stomp hits: ", enemy_stomp_hits)  # Debug info
 
+        # BLINK EFFECT ON HIT
+        if anim:
+            await _blink_effect()
+
         if "velocity" in player:
             player.velocity.y = stomp_bounce
 
@@ -215,7 +219,9 @@ func _handle_player_contact() -> void:
             is_dead_enemy = true
             hide()
             emit_signal("defeated")
-    elif player_above and not player_falling:
+        return
+
+    if player_above and not player_falling:
         # Player standing → enemy does double jump to make player fall
         if is_on_floor() and cooldown_timer <= 0.0:
             # First jump
@@ -228,7 +234,9 @@ func _handle_player_contact() -> void:
             if AudioController:
                 AudioController.play_jump()
             print("Enemy double jump to shake off player!")
-    elif enemy_falling and not player_above:
+        return
+
+    if enemy_falling and not player_above:
         if stomp_immunity_left <= 0.0 and velocity.y > 200.0:
             stomp_immunity_left = stomp_immunity_time
             anim.play("running")
@@ -236,6 +244,17 @@ func _handle_player_contact() -> void:
             if player.has_method("take_damage"):
                 print("Trimon enemy hit player! 1 heart lost.")
                 player.take_damage(1)
+        return
+
+# Blink effect coroutine
+func _blink_effect() -> void:
+    var blink_times = 5
+    var blink_interval = 0.08
+    for i in range(blink_times):
+        anim.visible = false
+        await get_tree().create_timer(blink_interval).timeout
+        anim.visible = true
+        await get_tree().create_timer(blink_interval).timeout
 
 func _respawn() -> void:
     global_position = spawn_position

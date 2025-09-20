@@ -200,18 +200,19 @@ rotation = 0.0448345
 scale = Vector2(0.169492, 0.146281)
 sprite_frames = SubResource("SpriteFrames_38am0")
 animation = &"death"
-frame_progress = 0.129856
+frame_progress = 0.259602
 
 [node name="PointLight2D" type="PointLight2D" parent="AnimatedSprite2D"]
-position = Vector2(-13.5277, 260.739)
+position = Vector2(2.06566, 184.761)
 rotation = -0.0519367
-scale = Vector2(5.90201, 6.8344)
+scale = Vector2(4.97086, 6.436)
 skew = 0.0132353
 color = Color(0.448286, 0.491088, 0.461411, 1)
-energy = 0.8
+energy = 0.6
 shadow_enabled = true
 shadow_color = Color(0.0980392, 0.0431373, 0.0352941, 1)
 texture = ExtResource("2_dqkch")
+texture_scale = 1.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, -27)

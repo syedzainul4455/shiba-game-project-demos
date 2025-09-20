@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://cwafjmpdcpj22"]
+[gd_scene load_steps=20 format=3 uid="uid://cwafjmpdcpj22"]
 
 [ext_resource type="Script" uid="uid://ck6y6xhxvedd0" path="res://scripts/trimon_enemy_character.gd" id="1_kep8u"]
 [ext_resource type="Texture2D" uid="uid://btkcvqddfv1wm" path="res://images/enemy/enemy_spritesheet.png" id="1_sa3cj"]
 [ext_resource type="Texture2D" uid="uid://dmc7166hnyg0l" path="res://images/enemy/running2.png" id="2_iawn3"]
 [ext_resource type="Texture2D" uid="uid://j1ujjt43e0nv" path="res://images/enemy/enemy_spritesheet running1.png" id="4_iawn3"]
+[ext_resource type="Texture2D" uid="uid://b75qrh2eboulf" path="res://platform_tiles/12-129447_white-shadow-white-glow-light-png.png" id="5_a14xy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkrhx"]
 atlas = ExtResource("2_iawn3")
@@ -120,8 +121,15 @@ scale = Vector2(0.234469, 0.227803)
 sprite_frames = SubResource("SpriteFrames_doxup")
 animation = &"running"
 autoplay = "running"
-frame_progress = 0.662159
+frame_progress = 0.601697
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-108, -127)
 shape = SubResource("CapsuleShape2D_sa3cj")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-111.5, -142.5)
+rotation = -1.20785
+scale = Vector2(0.211709, 0.250624)
+color = Color(0.683256, 0.442734, 0.234989, 1)
+texture = ExtResource("5_a14xy")
