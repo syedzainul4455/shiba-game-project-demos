@@ -17,7 +17,7 @@ signal defeated
 @export var platform_left_x: float = -1e9
 @export var platform_right_x: float = 1e9
 @export var cliff_check_distance: float = 16.0
-@export var max_health: int = 3
+@export var max_health: int = 4
 @onready var damage_numbers_origin = $DamageNumbersOrigin
 
 # Onready variables
@@ -75,6 +75,9 @@ func take_damage(amount: int) -> void:
     current_health -= amount
     current_health = max(current_health, 0)
     print("[Trimon] current_health(after)=", current_health)
+    # Play hit sound when enemy takes damage
+    if AudioController and AudioController.has_method("play_hit"):
+        AudioController.play_hit()
     # Show damage number (not critical for normal stomp)
     if Engine.has_singleton("DamageNumbers"):
         var DamageNumbers = Engine.get_singleton("DamageNumbers")
@@ -88,11 +91,17 @@ func take_damage(amount: int) -> void:
 
 # Death logic for enemy
 func die_enemy() -> void:
+    # Prevent player from dying with enemy
+    if player and "is_dead" in player:
+        player.is_dead = false
     is_dead_enemy = true
     is_fading_out = true
     velocity = Vector2.ZERO # Stop all movement
     if collision_shape:
         collision_shape.disabled = true
+    # Play death sound
+    if AudioController and AudioController.has_method("play_death"):
+        AudioController.play_death()
     # Play death animation instantly, non-looping
     if anim:
         anim.play("death")
@@ -277,7 +286,7 @@ func _handle_player_contact() -> void:
         # Each single jump counts as one hit - enemy loses 1 health per stomp
         print("[Trimon] Player stomped enemy, calling take_damage(1)")
         take_damage(1)
-         return # Prevent further checks this frame
+        return # Prevent further checks this frame
 
     if player_above and not player_falling:
         # Player standing → enemy does double jump to make player fall

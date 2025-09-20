@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://s63t83f61nm4"]
+[gd_scene load_steps=7 format=3 uid="uid://s63t83f61nm4"]
 
 [ext_resource type="Script" uid="uid://bypkjkkdaobk8" path="res://audio_controlller.gd" id="1_v7wvu"]
 [ext_resource type="AudioStream" uid="uid://du45m0xm3gpf7" path="res://audio/footstep2.wav" id="2_stjg5"]
 [ext_resource type="AudioStream" uid="uid://jo1gb4v1jt77" path="res://audio/jump1.wav" id="3_po430"]
 [ext_resource type="AudioStream" uid="uid://b0tu0uliwje1f" path="res://audio/dash1.wav" id="4_8tm3p"]
+[ext_resource type="AudioStream" uid="uid://cksiykbo0snuo" path="res://audio/death1.wav" id="5_ipm7o"]
+[ext_resource type="AudioStream" uid="uid://ix74qeohcyhl" path="res://audio/hit2-wood.wav" id="6_ipm7o"]
 
 [node name="AudioController" type="Node2D"]
 script = ExtResource("1_v7wvu")
@@ -22,4 +24,13 @@ bus = &"Sfx"
 [node name="dash" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_8tm3p")
 volume_db = 9.0
+bus = &"Sfx"
+
+[node name="death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ipm7o")
+bus = &"Sfx"
+
+[node name="hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ipm7o")
+volume_db = 8.0
 bus = &"Sfx"

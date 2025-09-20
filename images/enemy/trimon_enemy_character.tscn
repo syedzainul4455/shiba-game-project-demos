@@ -149,20 +149,6 @@ height = 108.0
 
 [node name="trimon_enemy_character" type="CharacterBody2D" groups=["Enemies"]]
 script = ExtResource("1_kep8u")
-move_speed = null
-gravity = null
-jump_force = null
-chase_accel = null
-max_chase_speed = null
-attack_range = null
-stomp_bounce = null
-dash_speed = null
-dash_duration = null
-reflex_cooldown = null
-platform_left_x = null
-platform_right_x = null
-cliff_check_distance = null
-max_health = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-110.5, -129.066)
@@ -170,7 +156,7 @@ scale = Vector2(0.234469, 0.227803)
 sprite_frames = SubResource("SpriteFrames_doxup")
 animation = &"death"
 autoplay = "running"
-frame_progress = 0.283038
+frame_progress = 0.668982
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-108, -127)

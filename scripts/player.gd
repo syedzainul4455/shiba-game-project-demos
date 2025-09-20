@@ -226,6 +226,10 @@ func take_damage(damage: int) -> void:
     if is_dead or is_invincible:
         return
 
+    # Play hit sound when player takes damage
+    if AudioController and AudioController.has_method("play_hit"):
+        AudioController.play_hit()
+
     currentHealth -= damage
     currentHealth = max(currentHealth, 0)
     emit_signal("healthChanged", currentHealth)
@@ -276,6 +280,9 @@ func start_dash(dir: float) -> void:
 func die() -> void:
     if is_dead or is_dying:
         return
+    # Play death sound once, for any cause of death
+    if AudioController and AudioController.has_method("play_death"):
+        AudioController.play_death()
     is_dead = true
     is_dying = true
     velocity = Vector2.ZERO
