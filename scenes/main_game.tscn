@@ -15328,6 +15328,20 @@ position = Vector2(293, 97)
 [node name="trimon_enemy_character" parent="." instance=ExtResource("9_2l77h")]
 position = Vector2(2960, 162)
 rotation = -0.0969167
+move_speed = null
+gravity = null
+jump_force = null
+chase_accel = null
+max_chase_speed = null
+attack_range = null
+stomp_bounce = null
+dash_speed = null
+dash_duration = null
+reflex_cooldown = null
+platform_left_x = null
+platform_right_x = null
+cliff_check_distance = null
+max_health = null
 
 [node name="Label" type="Label" parent="."]
 offset_left = -120.0

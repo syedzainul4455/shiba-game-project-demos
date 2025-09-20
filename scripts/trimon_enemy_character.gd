@@ -18,6 +18,7 @@ signal defeated
 @export var platform_right_x: float = 1e9
 @export var cliff_check_distance: float = 16.0
 @export var max_health: int = 3
+@onready var damage_numbers_origin = $DamageNumbersOrigin
 
 # Onready variables
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
@@ -49,18 +50,16 @@ const intro_lines: Array[String] = [
     "Let's see how high you can bounce!"
 ]
 func _ready() -> void:
-
     is_dead_enemy = false
+    max_health = int(max_health)
     current_health = max_health
     anim.play("idle")
     spawn_position = global_position
     if anim:
         original_flip_h = anim.flip_h
-
     # Initialize Healthbar if present
     if healthbar:
         healthbar.init_health(max_health)
-
     # Debug: Check player node
     if not player:
         print("[Trimon] Player node not found!")
@@ -70,10 +69,21 @@ func _ready() -> void:
 func take_damage(amount: int) -> void:
     if is_dead_enemy:
         return
+    if current_health <= 0:
+        return
+    print("[Trimon] take_damage called: amount=", amount, " current_health(before)=", current_health)
     current_health -= amount
+    current_health = max(current_health, 0)
+    print("[Trimon] current_health(after)=", current_health)
+    # Show damage number (not critical for normal stomp)
+    if Engine.has_singleton("DamageNumbers"):
+        var DamageNumbers = Engine.get_singleton("DamageNumbers")
+        DamageNumbers.display_number(current_health, damage_numbers_origin.global_position, false)
+    elif typeof(DamageNumbers) == TYPE_OBJECT:
+        DamageNumbers.display_number(current_health, damage_numbers_origin.global_position, false)
     if healthbar:
         healthbar.health = current_health
-    if current_health <= 0:
+    if current_health == 0:
         die_enemy()
 
 # Death logic for enemy
@@ -265,8 +275,9 @@ func _handle_player_contact() -> void:
             player.force_drop(0.15)
 
         # Each single jump counts as one hit - enemy loses 1 health per stomp
+        print("[Trimon] Player stomped enemy, calling take_damage(1)")
         take_damage(1)
-        return
+         return # Prevent further checks this frame
 
     if player_above and not player_falling:
         # Player standing → enemy does double jump to make player fall
@@ -281,7 +292,7 @@ func _handle_player_contact() -> void:
             if AudioController:
                 AudioController.play_jump()
             print("Enemy double jump to shake off player!")
-        return
+        return # Prevent further checks this frame
 
     if enemy_falling and not player_above:
         if stomp_immunity_left <= 0.0 and velocity.y > 200.0:
@@ -291,7 +302,7 @@ func _handle_player_contact() -> void:
             if player.has_method("take_damage"):
                 print("Trimon enemy hit player! 1 heart lost.")
                 player.take_damage(1)
-        return
+        return # Prevent further checks this frame
 
 # Blink effect coroutine
 func _blink_effect() -> void:
@@ -311,6 +322,7 @@ func _respawn() -> void:
     dash_time_left = 0.0
     cooldown_timer = 0.0
     stuck_timer = 0.0
+    max_health = int(max_health)
     current_health = max_health
     is_dead_enemy = false
     is_fading_out = false

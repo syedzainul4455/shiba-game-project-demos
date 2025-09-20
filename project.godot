@@ -31,6 +31,7 @@ DialogManager="*res://singletons/DialogManager.gd"
 InteractionManager="*res://interaction/InteractionManager.tscn"
 AudioController="*res://scenes/audio_controlller.tscn"
 LoadingScreen="*res://loading_screen/loading_scene.tscn"
+DamageNumbers="*res://singletons/DamageNumbers.gd"
 
 [display]
 
