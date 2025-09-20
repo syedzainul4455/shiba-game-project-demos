@@ -38,6 +38,7 @@ var stomp_immunity_left := 0.0
 var prev_player_dead := false
 var original_flip_h := false
 var is_dead_enemy := false
+var is_fading_out := false
 var queued_second_jump := false
 var second_jump_window := 0.35
 var second_jump_timer := 0.0
@@ -78,13 +79,33 @@ func take_damage(amount: int) -> void:
 # Death logic for enemy
 func die_enemy() -> void:
     is_dead_enemy = true
+    is_fading_out = true
+    velocity = Vector2.ZERO # Stop all movement
     if collision_shape:
         collision_shape.disabled = true
-    await get_tree().create_timer(0.1).timeout
-    hide()
-    emit_signal("defeated")
+    # Play death animation instantly, non-looping
+    if anim:
+        anim.play("death")
+    # Hide healthbar as soon as death animation starts
     if healthbar:
         healthbar.hide()
+    # Wait for death animation to finish (if exists), then fade out
+    var death_anim_length = 0.5
+    if anim and "death" in anim.sprite_frames.get_animation_names():
+        var frames = anim.sprite_frames.get_frame_count("death")
+        var fps = anim.sprite_frames.get_animation_speed("death")
+        if fps > 0:
+            death_anim_length = frames / fps
+    await get_tree().create_timer(death_anim_length).timeout
+    # Fade out the enemy smoothly (no falling)
+    var tween = create_tween()
+    tween.tween_property(self, "modulate:a", 0.0, 0.5)
+    await tween.finished
+    hide()
+    modulate.a = 1.0 # Reset alpha for next respawn
+    is_fading_out = false
+    emit_signal("defeated")
+
 
 func _physics_process(delta: float) -> void:
     if not player:
@@ -96,6 +117,11 @@ func _physics_process(delta: float) -> void:
     if "is_dead" in player and not player.is_dead and prev_player_dead:
         _respawn()
         prev_player_dead = false
+
+    # Block all movement, gravity, and logic if dead/fading
+    if is_dead_enemy or is_fading_out:
+        velocity = Vector2.ZERO
+        return
 
     cooldown_timer = max(cooldown_timer - delta, 0.0)
     stomp_immunity_left = max(stomp_immunity_left - delta, 0.0)
@@ -123,10 +149,6 @@ func _physics_process(delta: float) -> void:
     if DialogManager.is_dialog_active:
         if anim:
             anim.play("dialog")
-        move_and_slide()
-        return
-
-    if is_dead_enemy:
         move_and_slide()
         return
 
@@ -291,19 +313,16 @@ func _respawn() -> void:
     stuck_timer = 0.0
     current_health = max_health
     is_dead_enemy = false
+    is_fading_out = false
     has_spoken_to_player = false
+    modulate.a = 1.0 # Ensure fully visible on respawn
     if collision_shape:
         collision_shape.disabled = false
     if healthbar:
         healthbar.init_health(max_health)
-    anim.play("idle")
+        healthbar.show() # Always show healthbar after respawn
     if anim:
-        anim.flip_h = original_flip_h
-    show()
-    if healthbar:
-        healthbar.show()
-    anim.play("idle")
-    if anim:
+        anim.play("idle")
         anim.flip_h = original_flip_h
     show()
 
