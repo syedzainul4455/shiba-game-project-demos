@@ -32,8 +32,8 @@ func _ready() -> void:
 
     # Set up hit and death sound properties
     if hit:
-        hit.volume_db = 0
-        hit.pitch_scale = 11.0
+        hit.volume_db = 23
+        hit.pitch_scale = 1.0
         # hit.stream = preload("res://audio/hit1-metal.wav") # Example
     if death:
         death.volume_db = 0

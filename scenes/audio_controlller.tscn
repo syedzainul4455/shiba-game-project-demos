@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://jo1gb4v1jt77" path="res://audio/jump1.wav" id="3_po430"]
 [ext_resource type="AudioStream" uid="uid://b0tu0uliwje1f" path="res://audio/dash1.wav" id="4_8tm3p"]
 [ext_resource type="AudioStream" uid="uid://cksiykbo0snuo" path="res://audio/death1.wav" id="5_ipm7o"]
-[ext_resource type="AudioStream" uid="uid://ix74qeohcyhl" path="res://audio/hit2-wood.wav" id="6_ipm7o"]
+[ext_resource type="AudioStream" uid="uid://c853qw5spnac2" path="res://audio/kick1.wav" id="6_ipm7o"]
 
 [node name="AudioController" type="Node2D"]
 script = ExtResource("1_v7wvu")
@@ -32,5 +32,5 @@ bus = &"Sfx"
 
 [node name="hit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ipm7o")
-volume_db = 8.0
+volume_db = 23.0
 bus = &"Sfx"
