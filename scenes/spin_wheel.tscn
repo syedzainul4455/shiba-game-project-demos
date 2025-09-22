@@ -1,0 +1,128 @@
+[gd_scene load_steps=19 format=3 uid="uid://c0a54dwiuo126"]
+
+[ext_resource type="Script" uid="uid://bubdm6hlm5h1x" path="res://scripts/spin_wheel.gd" id="1_gdgij"]
+[ext_resource type="Texture2D" uid="uid://dp8uq4vlxlkae" path="res://images/spinwheel1.png" id="1_oqfcr"]
+[ext_resource type="Texture2D" uid="uid://1e4yny8rxrs0" path="res://images/stopper.png" id="2_gdgij"]
+[ext_resource type="FontFile" uid="uid://b8pnyhoc4eu4f" path="res://fonts/Gagalin-Regular.ttf" id="4_3m87q"]
+[ext_resource type="Theme" uid="uid://c3witup66yg1t" path="res://images/spin_wheel.tres" id="4_uju5b"]
+[ext_resource type="PackedScene" uid="uid://b20pofus2vp3a" path="res://interaction/interaction area/interaction_area.tscn" id="6_y4pnx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esbxq"]
+bg_color = Color(1, 0.513726, 0.317647, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ai5vn"]
+bg_color = Color(0.103627, 0.690965, 0.631497, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xq8q"]
+bg_color = Color(0.576007, 0.518015, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5762"]
+bg_color = Color(0.494464, 0.783976, 0.0704145, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yctuy"]
+bg_color = Color(0.732348, 0.349285, 0.2403, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dulh2"]
+bg_color = Color(0, 0.888539, 0.897364, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y4pnx"]
+bg_color = Color(1, 0.513726, 0.317647, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uju5b"]
+bg_color = Color(1, 0.513726, 0.317647, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3m87q"]
+bg_color = Color(1, 0.513933, 0.318368, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwcug"]
+bg_color = Color(0.446306, 0.669024, 0.39131, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s4bh1"]
+bg_color = Color(0.98985, 0.371823, 1.92523e-07, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 15
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yctuy"]
+radius = 372.139
+
+[node name="node2d" type="Node2D" groups=["spinwheel"]]
+position = Vector2(97.5, 16)
+scale = Vector2(0.359404, 0.379888)
+script = ExtResource("1_gdgij")
+
+[node name="spinwheel" type="Sprite2D" parent="." groups=["spinwheel"]]
+texture = ExtResource("1_oqfcr")
+
+[node name="stopper" type="Sprite2D" parent="."]
+position = Vector2(-2.78238, -242.176)
+scale = Vector2(0.804386, 0.929066)
+texture = ExtResource("2_gdgij")
+
+[node name="start" type="Button" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = -0.0461014
+anchor_top = -0.0287819
+anchor_right = 0.0507328
+anchor_bottom = 0.027084
+offset_left = -101.842
+offset_top = -31.9265
+offset_right = 99.158
+offset_bottom = 20.0735
+focus_mode = 0
+theme = ExtResource("4_uju5b")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("4_3m87q")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/focus = SubResource("StyleBoxFlat_esbxq")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxFlat_ai5vn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_2xq8q")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_y5762")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_yctuy")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxFlat_dulh2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_y4pnx")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxFlat_uju5b")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3m87q")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxFlat_uwcug")
+theme_override_styles/normal = SubResource("StyleBoxFlat_s4bh1")
+text = "start"
+metadata/_edit_use_anchors_ = true
+
+[node name="InteractionArea" parent="." instance=ExtResource("6_y4pnx")]
+position = Vector2(92, 257)
+action_name = "spinwheel"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(-87.8265, -270.162)
+rotation = 0.289939
+shape = SubResource("CircleShape2D_yctuy")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -299.106
+offset_top = -508.044
+offset_right = 253.894
+offset_bottom = -390.044

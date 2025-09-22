@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dasmolxhhvubw"]
+[gd_scene load_steps=26 format=3 uid="uid://dasmolxhhvubw"]
 
 [ext_resource type="Texture2D" uid="uid://5gto01acmj0y" path="res://platform_tiles/background top-Photoroom.png" id="1_70vka"]
 [ext_resource type="Texture2D" uid="uid://bc2e054k2xx6x" path="res://platform_tiles/background.jpeg" id="1_ipu61"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://w1r0csqan7jw" path="res://UI/heartsContainer.tscn" id="12_o6v7o"]
 [ext_resource type="FontFile" uid="uid://dd0jm8kkhfgc7" path="res://Gagalin-Regular.ttf" id="12_wjob3"]
 [ext_resource type="Texture2D" uid="uid://b75qrh2eboulf" path="res://platform_tiles/12-129447_white-shadow-white-glow-light-png.png" id="14_8xp80"]
+[ext_resource type="PackedScene" uid="uid://c0a54dwiuo126" path="res://scenes/spin_wheel.tscn" id="15_sp04v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2l77h"]
 texture = ExtResource("1_70vka")
@@ -15309,6 +15310,10 @@ layer_0/name = "Layer1"
 layer_0/tile_data = PackedInt32Array(-1376095, 0, 0, -1441671, 0, 0, -1376036, 0, 0, -1441504, 0, 0)
 layer_1/name = "Layer0"
 layer_1/tile_data = PackedInt32Array(-1179653, 0, 0, -1179583, 0, 0, -1179712, 0, 0, -1179738, 0, 0, -1113977, 0, 0, -1113915, 0, 0, -1113848, 0, 0, -1507128, 0, 0, -1507203, 0, 0, -1441523, 0, 0, -1572818, 0, 0, -1507352, 0, 0, -1572955, 0, 0, 262380, 1, 0)
+
+[node name="node2d" parent="." instance=ExtResource("15_sp04v")]
+position = Vector2(2139, 50)
+scale = Vector2(0.215084, 0.227188)
 
 [node name="player" parent="." instance=ExtResource("3_d2op2")]
 position = Vector2(125, 73)

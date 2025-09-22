@@ -62,19 +62,19 @@ func _ready() -> void:
         healthbar.init_health(max_health)
     # Debug: Check player node
     if not player:
-        print("[Trimon] Player node not found!")
+        pass
     else:
-        print("[Trimon] Player node found:", player)
+        pass
 # Health system: take damage and update healthbar
 func take_damage(amount: int) -> void:
     if is_dead_enemy:
         return
     if current_health <= 0:
         return
-    print("[Trimon] take_damage called: amount=", amount, " current_health(before)=", current_health)
+    # print("[Trimon] take_damage called: amount=", amount, " current_health(before)=", current_health)
     current_health -= amount
     current_health = max(current_health, 0)
-    print("[Trimon] current_health(after)=", current_health)
+    # print("[Trimon] current_health(after)=", current_health)
     # Play hit sound when enemy takes damage
     if AudioController and AudioController.has_method("play_hit"):
         AudioController.play_hit()
@@ -269,7 +269,7 @@ func _handle_player_contact() -> void:
     if player_above and player_falling and stomp_immunity_left <= 0.0:
         stomp_immunity_left = stomp_immunity_time
         enemy_stomp_hits += 1
-        print("Enemy stomp hits: ", enemy_stomp_hits)  # Debug info
+    # print("Enemy stomp hits: ", enemy_stomp_hits)  # Debug info
 
         # BLINK EFFECT ON HIT
         if anim:
@@ -284,7 +284,7 @@ func _handle_player_contact() -> void:
             player.force_drop(0.15)
 
         # Each single jump counts as one hit - enemy loses 1 health per stomp
-        print("[Trimon] Player stomped enemy, calling take_damage(1)")
+    # print("[Trimon] Player stomped enemy, calling take_damage(1)")
         take_damage(1)
         return # Prevent further checks this frame
 
@@ -300,7 +300,7 @@ func _handle_player_contact() -> void:
             # Play jump sound
             if AudioController:
                 AudioController.play_jump()
-            print("Enemy double jump to shake off player!")
+            # print("Enemy double jump to shake off player!")
         return # Prevent further checks this frame
 
     if enemy_falling and not player_above:
@@ -309,7 +309,7 @@ func _handle_player_contact() -> void:
             anim.play("running")
             # Always 1 hit = 1 heart lost
             if player.has_method("take_damage"):
-                print("Trimon enemy hit player! 1 heart lost.")
+                # print("Trimon enemy hit player! 1 heart lost.")
                 player.take_damage(1)
         return # Prevent further checks this frame
 

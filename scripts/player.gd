@@ -1,10 +1,111 @@
+
 extends CharacterBody2D
+
+# --- Spinwheel Boost Methods ---
+func apply_speed_boost(duration: int):
+    print("[DEBUG] Player: Speed boost before:", speed)
+    var original_speed = speed
+    var boost_amount = int(original_speed * 0.4)
+    speed += boost_amount
+    print("[DEBUG] Player: Speed boost after:", speed)
+    await get_tree().create_timer(duration).timeout
+    speed = original_speed
+    print("[DEBUG] Player: Speed boost ended:", speed)
+
+var health_boost_active := false
+var speed_dash_boost_active := false
+var attack_boost_active := false
+var overall_boost_active := false
+var damage_reduction := 70
+
+func apply_health_damage_boost(duration: int):
+    print("[DEBUG] Player: Health/Damage boost before: health:", currentHealth, "damage_reduction:", damage_reduction)
+    health_boost_active = true
+    var original_damage_reduction = damage_reduction
+    var original_health = currentHealth
+    var boost_amount = int(maxHealth * 0.4)
+    damage_reduction += int(damage_reduction * 0.4) + 1
+    currentHealth = min(currentHealth + boost_amount, maxHealth)
+    print("[DEBUG] Player: Health/Damage boost after: health:", currentHealth, "damage_reduction:", damage_reduction)
+    await get_tree().create_timer(duration).timeout
+    health_boost_active = false
+    damage_reduction = original_damage_reduction
+    print("[DEBUG] Player: Health/Damage boost ended: health:", currentHealth, "damage_reduction:", damage_reduction)
+
+func apply_speed_dash_boost(duration: int):
+    print("[DEBUG] Player: Speed/Dash boost before: speed:", speed, "dash_speed:", dash_speed)
+    speed_dash_boost_active = true
+    var original_speed = speed
+    var original_dash_speed = dash_speed
+    speed += int(original_speed * 1.0)
+    dash_speed += int(original_dash_speed * 1.0)
+    print("[DEBUG] Player: Speed/Dash boost after: speed:", speed, "dash_speed:", dash_speed)
+    await get_tree().create_timer(duration).timeout
+    speed_dash_boost_active = false
+    speed = original_speed
+    dash_speed = original_dash_speed
+    print("[DEBUG] Player: Speed/Dash boost ended: speed:", speed, "dash_speed:", dash_speed)
+
+func cancel_all_boosts():
+    # Reset all boost effects immediately
+    if health_boost_active:
+        damage_reduction = 0
+        health_boost_active = false
+    if speed_dash_boost_active:
+        speed = 300.0
+        dash_speed = 900.0
+        speed_dash_boost_active = false
+    if attack_boost_active:
+        attack = 0
+        attack_boost_active = false
+    if overall_boost_active:
+        speed = 300.0
+        block = 0
+        attack = 0
+        overall_boost_active = false
+
+func apply_block_boost(duration: int):
+    print("[DEBUG] Player: Block boost before:", block)
+    var original_block = block
+    var boost_amount = int(original_block * 1) + 1
+    block += boost_amount
+    print("[DEBUG] Player: Block boost after:", block)
+    await get_tree().create_timer(duration).timeout
+    block = original_block
+    print("[DEBUG] Player: Block boost ended:", block)
+
+func apply_attack_boost(duration: int):
+    print("[DEBUG] Player: Attack boost before:", attack)
+    var original_attack = attack
+    var boost_amount = int(original_attack * 1) + 1
+    attack += boost_amount
+    print("[DEBUG] Player: Attack boost after:", attack)
+    await get_tree().create_timer(duration).timeout
+    attack = original_attack
+    print("[DEBUG] Player: Attack boost ended:", attack)
+
+func apply_overall_boost(duration: int):
+    print("[DEBUG] Player: Overall boost before: Speed:", speed, "Block:", block, "Attack:", attack)
+    var original_speed = speed
+    var original_block = block
+    var original_attack = attack
+    speed += int(original_speed * 1)
+    block += int(original_block * 1)
+    attack += int(original_attack * 1)
+    print("[DEBUG] Player: Overall boost after: Speed:", speed, "Block:", block, "Attack:", attack)
+    await get_tree().create_timer(duration).timeout
+    speed = original_speed
+    block = original_block
+    attack = original_attack
+    print("[DEBUG] Player: Overall boost ended: Speed:", speed, "Block:", block, "Attack:", attack)
 
 signal healthChanged(currentHealth: int)
 
 @export var speed: float = 300.0
+@export var block: int = 70
+@export var attack: int = 80
 @export var jump_velocity: float = -450.0
-@export var dash_speed: float = 800.0
+@export var dash_speed: float = 1000.0
 @export var dash_duration: float = 0.2
 @export var dash_cooldown: float = 0.5
 @export var max_jumps: int = 2
@@ -12,7 +113,7 @@ signal healthChanged(currentHealth: int)
 @export var maxHealth: int = 4
 @export var invincible_time: float = 1.2
 
-var currentHealth: int = 0
+var currentHealth: int = 70
 
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var dim: ColorRect = $"../Dim"
@@ -48,6 +149,24 @@ var was_dialog_active: bool = false
 # Timer for auto-heal
 var heal_timer: Timer
 
+# Returns true if all hearts are on frame 3 (empty)
+func are_all_hearts_frame_3() -> bool:
+    var hearts_container = null
+    # Try to find hearts container in scene tree
+    if has_node("../UI/heartsContainer"):
+        hearts_container = get_node("../UI/heartsContainer")
+    elif get_tree().get_root().has_node("UI/heartsContainer"):
+        hearts_container = get_tree().get_root().get_node("UI/heartsContainer")
+    if hearts_container and hearts_container.has_method("get_hearts"):
+        var hearts = hearts_container.get_hearts()
+        for heart in hearts:
+            if heart.has_node("Sprite2D"):
+                var sprite = heart.get_node("Sprite2D")
+                if sprite.frame != 3:
+                    return false
+        return true
+    return false
+
 func _ready() -> void:
     currentHealth = maxHealth
     spawn_position = global_position
@@ -60,7 +179,7 @@ func _ready() -> void:
 
     # Start heal timer (every 120 seconds)
     heal_timer = Timer.new()
-    heal_timer.wait_time = 120.0
+    heal_timer.wait_time = 60.0
     heal_timer.one_shot = false
     heal_timer.autostart = true
     add_child(heal_timer)
@@ -286,7 +405,9 @@ func die() -> void:
     is_dead = true
     is_dying = true
     velocity = Vector2.ZERO
-
+    # End all boosts immediately on death
+    if has_method("cancel_all_boosts"):
+        cancel_all_boosts()
     # Play death animation and block all others
     if anim_sprite:
         anim_sprite.visible = true # Ensure visible before death
@@ -305,11 +426,9 @@ func die() -> void:
                 print("[Death] No enemy found. Player set flip_h = false (face right)")
         anim_sprite.sprite_frames.set_animation_loop("death", false)
         anim_sprite.play("death")
-
     # Instantly fade in dim if present (optional, can be removed if not needed)
     if dim:
         dim.color.a = 1.0
-
     # Wait for death animation to finish (or fallback to 0.9s if not found)
     var death_anim_length = 0.7
     if anim_sprite and anim_sprite.sprite_frames.has_animation("death"):
@@ -319,11 +438,14 @@ func die() -> void:
         if anim_speed > 0:
             death_anim_length = (frame_count / float(anim_speed)) + 0.05
     await get_tree().create_timer(death_anim_length).timeout
-
     hide()
+    # Signal spinwheel to reset (if present)
+    if get_tree().get_root().has_node("SpinWheel"):
+        var spinwheel = get_tree().get_root().get_node("SpinWheel")
+        if spinwheel.has_method("reset_spinwheel"):
+            spinwheel.reset_spinwheel()
     respawn()
     is_dying = false
-
     # Instantly fade out dim if present (optional, can be removed if not needed)
     if dim:
         dim.color.a = 0.0

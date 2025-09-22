@@ -5,6 +5,10 @@ extends HBoxContainer
 # Store references to the heart nodes
 var hearts: Array = []
 
+# Returns array of heart nodes
+func get_hearts() -> Array:
+    return hearts
+
 func _ready() -> void:
     # nothing yet — UI is built from setMaxHearts()
     pass

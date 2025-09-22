@@ -212,7 +212,7 @@ energy = 0.6
 shadow_enabled = true
 shadow_color = Color(0.0980392, 0.0431373, 0.0352941, 1)
 texture = ExtResource("2_dqkch")
-texture_scale = 1.5
+texture_scale = 1.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, -27)
